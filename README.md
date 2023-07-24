@@ -7,7 +7,7 @@ in the excel list.
 
 ### Technologies used
 * Languages
-  ** Python
+  * Python
   ** JS
 * Frameworks
   ** Django
