@@ -8,8 +8,8 @@ in the excel list.
 ### Technologies used
 * Languages
   * Python
-  ** JS
+  * JS
 * Frameworks
-  ** Django
+  * Django
 * Style
-  ** Bootstrap
+  * Bootstrap
