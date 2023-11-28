@@ -1,26 +1,20 @@
-// opciones de menu (botones radio)
-const menu1 = document.querySelector("#menu1") // Sin Condicion
-const menu2 = document.querySelector("#menu2") // Vegetariano
-const menu3 = document.querySelector("#menu3") // Vegano
-const menu4 = document.querySelector("#menu4") // Celiaco
+const menu1 = document.querySelector("#menu1") // No Condition
+const menu2 = document.querySelector("#menu2") // Vegetarian
+const menu3 = document.querySelector("#menu3") // Vegan
+const menu4 = document.querySelector("#menu4") // Celiac
 
-// modal exito
-const miModalSuccess = new bootstrap.Modal(document.querySelector("#modalExito"), {
+const successModal = new bootstrap.Modal(document.querySelector("#successModal"), {
     keyboard: false
 })
 
-// modal error
-const miModalError = new bootstrap.Modal(document.querySelector("#modalError"), {
+const errorModal = new bootstrap.Modal(document.querySelector("#errorModal"), {
     keyboard: false
 })
 
-// mensaje de modal exito
-const mensajeModalExito = document.querySelector("#modalSucc");
+const successModalMessage = document.querySelector("#successModalMessage");
+const errorModalMessage = document.querySelector("#errorModalMessage");
 
-// mensaje de modal error
-const mensajeModalError = document.querySelector("#modalErr");
-
-document.querySelector("#inviform").addEventListener("submit", function(e){
+document.querySelector("#mainForm").addEventListener("submit", function(e){
     e.preventDefault();
 
     first_name = firstnameField.value;
@@ -42,11 +36,9 @@ document.querySelector("#inviform").addEventListener("submit", function(e){
     const formData = new FormData();
     
     formData.append('first_name', first_name);
-    formData.append('last_name', last_name)
+    formData.append('last_name', last_name);
     formData.append('menu', menu);
     formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-    /* console.log(formData); */
-
     
     fetch("", {
         method: 'POST',
@@ -56,9 +48,8 @@ document.querySelector("#inviform").addEventListener("submit", function(e){
     .then((data) => {
         if (data.username_error) {
             submitBtn.setAttribute("disabled", "");
-            mensajeModalError.innerHTML = `<p class="modal-title" style="font-weight: 500;">${data.username_error}</p> 
-                                                            <span aria-hidden="true">&#9940;</span>`
-            miModalError.show()
+            errorModalMessage.innerHTML = `<p class="modal-title">${data.username_error}</p><span aria-hidden="true">&#9940;</span>`
+            errorModal.show()
             firstnameField.value = "";
             lastnameField.value = "";
 
@@ -68,12 +59,11 @@ document.querySelector("#inviform").addEventListener("submit", function(e){
             menu4.checked = false;
 
             setTimeout(function(){
-                miModalError.hide()
+                errorModal.hide()
             }, 2000)
         } else {
-            mensajeModalExito.innerHTML = `<p class="modal-title" style="text-align: center; font-weight: 500;">${data.username_success} &#128515;</p>
-                                                                <span aria-hidden="true">&#9989;</span>`
-            miModalSuccess.show()
+            successModalMessage.innerHTML = `<p class="modal-title">${data.username_success}</p><span aria-hidden="true">&#9989;</span>`
+            successModal.show()
             firstnameField.value = "";
             lastnameField.value = "";
 
@@ -83,7 +73,7 @@ document.querySelector("#inviform").addEventListener("submit", function(e){
             menu4.checked = false;
 
             setTimeout(function(){
-                miModalSuccess.hide()
+                successModal.hide()
             }, 2000)
         }
 
