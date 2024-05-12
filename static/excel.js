@@ -7,6 +7,7 @@ window.addEventListener('load', () => {
 })
 
 passwd.addEventListener("keyup", (e) => {
+    
     const passwordVal = e.target.value;
 
     passwd.classList.remove("is-invalid");
@@ -27,8 +28,9 @@ passwd.addEventListener("keyup", (e) => {
                     passwd.classList.remove("is-invalid")
                     passwd.classList.add("is-valid")
                     excelSubmit.removeAttribute("disabled");
-                    // passwd.value = "";
+                    //passwd.value = "";
                 }
             })
     }
 });
+
