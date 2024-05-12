@@ -2,6 +2,9 @@
 const passwd = document.querySelector("#passwordField")
 const excelSubmit = document.querySelector("#downloadButton")
 
+window.addEventListener('load', () => {
+    excelSubmit.disabled = true;
+})
 
 passwd.addEventListener("keyup", (e) => {
     const passwordVal = e.target.value;
@@ -20,14 +23,12 @@ passwd.addEventListener("keyup", (e) => {
                 if (data.password_error) {
                     passwd.classList.add("is-invalid");
                     excelSubmit.disabled = true;
-                } else {
+                } else if (data.password_valid) {
                     passwd.classList.remove("is-invalid")
                     passwd.classList.add("is-valid")
                     excelSubmit.removeAttribute("disabled");
-                    passwd.value = "";
+                    // passwd.value = "";
                 }
             })
-    } else {
-        excelSubmit.disabled = true;
     }
 });

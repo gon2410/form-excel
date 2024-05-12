@@ -1,12 +1,12 @@
 import json
 import string
-import xlwt
+import xlwt # type: ignore
 import datetime
 
-from django.shortcuts import render
-from django.contrib.auth.models import User
-from django.http import HttpResponse, JsonResponse
-from django.views import View
+from django.shortcuts import render # type: ignore
+from django.contrib.auth.models import User # type: ignore
+from django.http import HttpResponse, JsonResponse # type: ignore
+from django.views import View # type: ignore
 
 chars = tuple(string.punctuation + string.digits + "¨" + "´" + "`")
 
