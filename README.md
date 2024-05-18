@@ -13,3 +13,5 @@ in the excel list. It can be useful to someone.
   * Django
 * Style
   * Bootstrap
+* Libraries
+  * xlwt
