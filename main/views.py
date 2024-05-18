@@ -10,7 +10,7 @@ from django.views import View # type: ignore
 
 chars = tuple(string.punctuation + string.digits + "¨" + "´" + "`")
 
-# validacion del nombre
+# name validation
 class UsernameValidationView(View):
 
     def post(self, request):
@@ -22,7 +22,7 @@ class UsernameValidationView(View):
         return JsonResponse({'username_valid': True})
 
 
-# validacion del apellido
+# lastname validation
 class LastnameValidationView(View):
     def post(self, request):
         data = json.loads(request.body)
@@ -32,7 +32,7 @@ class LastnameValidationView(View):
 
         return JsonResponse({'lastname_valid': True})
 
-# validacion y registro de usuario en la base de datos
+# validation and registration of the user in the DB
 class RegistrationView(View):
     
     def get(self, request):
@@ -48,15 +48,15 @@ class RegistrationView(View):
         #     'fieldValues': request.POST
         # }
 
-        nombre_completo = last_name + " " + first_name
+        complete_name = last_name + " " + first_name
 
         if len(first_name) == 0 or len(last_name) == 0 or menu == 'none':
             return JsonResponse({'username_error': 'FILL BLANK FIELDS!'}, status=400)
-        elif User.objects.filter(username=nombre_completo).exists():
+        elif User.objects.filter(username=complete_name).exists():
             return JsonResponse({'username_error': 'A GUEST WITH THAT NAME ALREADY EXISTS'}, status=400)
         else:
             data = {'first_name': first_name, 'last_name': last_name, 'menu':menu, 'username_success': 'CONFIRMED SUCCESSFULLY'}
-            user = User.objects.create_user(username=nombre_completo, first_name=first_name, last_name=last_name, email=menu)
+            user = User.objects.create_user(username=complete_name, first_name=first_name, last_name=last_name, email=menu)
     
             user.set_unusable_password()
             user.is_active = False
@@ -79,11 +79,11 @@ class PasswordView(View):
 
         if password == passwd:
 
-            invitados_count = User.objects.all().count() -1
-            invitados_sincondicion = User.objects.filter(email="Sin Condicion").count()
-            invitados_vegetarianos = User.objects.filter(email="Vegetariano").count()
-            invitados_veganos = User.objects.filter(email="Vegano").count()
-            invitados_celiacos = User.objects.filter(email="Celiaco").count()
+            guest_count = User.objects.all().count() -1
+            nocondition_guests = User.objects.filter(email="No Condition").count()
+            vegetarian_guests = User.objects.filter(email="Vegetarian").count()
+            vegan_guests = User.objects.filter(email="Vegan").count()
+            celiac_guests = User.objects.filter(email="Celiac").count()
 
 
             response = HttpResponse(content_type="application/ms-excel")
@@ -100,15 +100,14 @@ class PasswordView(View):
             font_style = xlwt.XFStyle()
             font_style.font.bold = True
 
-            ws.write(0, 0, "Total de invitados = " + str(invitados_count), font_style)
-            ws.write(1, 0, "Total de invitados sin condicion = " + str(invitados_sincondicion), font_style)
-            ws.write(2, 0, "Total de invitados vegetarianos = " + str(invitados_vegetarianos), font_style)
-            ws.write(3, 0, "Total de invitados veganos = " + str(invitados_veganos), font_style)
-            ws.write(4, 0, "Total de invitados celiacos = " + str(invitados_celiacos), font_style)
+            ws.write(0, 0, "Total guests = " + str(guest_count), font_style)
+            ws.write(1, 0, "No Condition guests = " + str(nocondition_guests), font_style)
+            ws.write(2, 0, "Vegetarian guests = " + str(vegetarian_guests), font_style)
+            ws.write(3, 0, "Vegan Guests = " + str(vegan_guests), font_style)
+            ws.write(4, 0, "Celiac guests = " + str(celiac_guests), font_style)
 
 
-            ws.write(6, 0, "Lista de Invitados", font_style)
-            columns = ['Nombre', 'Menu']
+            columns = ['Name', 'Menu']
 
 
             for col_num in range(len(columns)):
